@@ -1,6 +1,6 @@
-import { catchAsyncError } from "../utils/catchAsyncError.ts";
-import { getConnection } from "../db/connectToDatabase.ts";
-import { ApiError } from "../utils/Apierror.ts";
+import { catchAsyncError } from "../utils/catchAsyncError";
+import { getConnection } from "../db/connectToDatabase";
+import { ApiError } from "../utils/Apierror";
 
 const fetchFlashCards = catchAsyncError(async (req, res, next) => {
   const connection = await getConnection();
