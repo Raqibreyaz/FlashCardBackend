@@ -10,10 +10,12 @@ const fetchFlashCards = catchAsyncError(async (req, res, next) => {
     `;
   const [flashCards] = await connection.execute(query);
 
+  connection.release();
+
   res.status(200).json({
     success: true,
     message: "flashcards fetched successfully",
-    flashCards
+    flashCards,
   });
 });
 
@@ -33,7 +35,7 @@ const createFlashCard = catchAsyncError(async (req, res, next) => {
 
   await connection.execute(query, [question, answer]);
 
-  await connection.end();
+  connection.release();
 
   res.status(200).json({
     success: true,
@@ -74,7 +76,7 @@ const updateFlashCard = catchAsyncError(async (req, res, next) => {
 
   await connection.execute(query, values);
 
-  await connection.end();
+  connection.release();
 
   res.status(200).json({
     success: true,
@@ -95,6 +97,8 @@ const deleteFlashCard = catchAsyncError(async (req, res, next) => {
   const connection = await getConnection();
 
   await connection.execute(query, [flashCardId]);
+
+  connection.release();
 
   res.status(200).json({
     success: true,
